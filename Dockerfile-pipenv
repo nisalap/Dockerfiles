@@ -1,0 +1,9 @@
+FROM ubuntu-python:18.3.8
+RUN python3.8 -m pip install --upgrade pip
+RUN python3.8 -m pip list
+RUN python3.8 -m pip install pipenv
+WORKDIR /home
+RUN mkdir .venv
+RUN pipenv --python 3.8
+
+

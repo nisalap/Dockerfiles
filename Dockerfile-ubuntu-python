@@ -1,0 +1,15 @@
+FROM ubuntu:18.04
+RUN apt update -y && \
+    apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget -y
+RUN wget https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz -P /tmp
+RUN cd /tmp && \
+    tar xf /tmp/Python-3.8.12.tgz && \
+    cd /tmp/Python-3.8.12 && \
+    ./configure --enable-optimizations && \
+    make -s altinstall
+RUN rm /tmp/Python-3.8.12.tgz && rm -rf /tmp/Python-3.8.12
+ENV PATH "/usr/local/bin:$PATH"
+RUN python3.8 --version
+RUN python3.8 -m pip install --upgrade pip && python3.8 -m pip install pipenv
+WORKDIR /app
+RUN mkdir .venv && pipenv --python 3.8 && echo "pipenv shell" > ~/.bashrc
